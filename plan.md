@@ -1,10 +1,10 @@
-# 1. Setting up Firebase
+# 1. Setting up Firebase ✅
 
-# 2. Clean up proccess
+# 2. Clean up proccess ✅
 
-# 3. Building Header Section
+# 3. Building Header Section ✅
 
-# 4. Building Header options
+# 4. Building Header options ✅
 
 # 5. Building Feed Section
 
