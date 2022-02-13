@@ -6,7 +6,7 @@ const Button = ({ LeftIcon, RightIcon, avatar, title }) => {
   return (
     <div className="button">
       {LeftIcon && <LeftIcon className="button__left-icon" />}
-      {avatar && <Avatar src={avatar} size="xs" />}
+      {avatar && <Avatar src={avatar} size="sm" />}
       <h3>{title ? title : 'Me'}</h3>
       {RightIcon && <RightIcon className="button__right-icon" />}
     </div>

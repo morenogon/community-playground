@@ -1,0 +1,89 @@
+@import '../assets/variables';
+
+.sidebar {
+  flex: 0.2;
+
+  padding-bottom: 16px;
+
+  border-radius: 10px;
+  background-color: $tertiary-green;
+
+  &__top {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    > img {
+      width: 100%;
+      height: 100px;
+
+      margin-bottom: -30px;
+
+      object-fit: cover;
+      border-top-left-radius: 10px;
+      border-top-right-radius: 10px;
+    }
+
+    &-name {
+      margin-top: 8px;
+      color: $secondary-gray;
+    }
+
+    &-nickname {
+      margin-top: 4px;
+      margin-bottom: 8px;
+
+      font-weight: 500;
+      color: $tertiary-gray;
+    }
+
+    &-quote {
+      font-weight: 500;
+      color: $quaternary-gray;
+    }
+  }
+
+  &__follow {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
+
+    width: 100%;
+
+    padding-top: 8px;
+    padding-bottom: 8px;
+    margin-top: 16px;
+    border-top: 1px solid #26343c;
+    border-bottom: 1px solid #26343c;
+
+    &-data {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+      > h4 {
+        color: $secondary-gray;
+      }
+
+      > p {
+        margin-top: 4px;
+        font-weight: 600;
+        color: $tertiary-gray;
+      }
+    }
+  }
+
+  &__profile {
+    margin-top: 16px;
+
+    text-align: center;
+    font-size: 12px;
+    font-weight: 700;
+    color: $primary-blue;
+
+    &:hover {
+      cursor: pointer;
+    }
+  }
+}
