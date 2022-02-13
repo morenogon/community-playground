@@ -1,0 +1,61 @@
+@import '../assets/mixins';
+@import '../assets/variables';
+
+.feed {
+  flex: 0.6;
+
+  &__inputContainer {
+    padding: 16px;
+
+    border-radius: 10px;
+    background-color: $tertiary-green;
+  }
+
+  &__input > form {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  &__input > form > input {
+    flex: 1;
+    margin-left: 8px;
+    padding: 16px;
+
+    border: none;
+    border-radius: 8px;
+    background-color: $quaternary-green;
+    color: #bcc6ca;
+    outline: transparent;
+    letter-spacing: 0.2px;
+  }
+
+  &__input > form > input::placeholder {
+    color: #bcc6ca;
+    font-weight: 600;
+  }
+
+  &__input > form > button {
+    display: none;
+  }
+
+  &__inputOptions {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 16px;
+    flex-wrap: wrap;
+
+    margin-top: 16px;
+    margin-left: 56px;
+
+    @include respond(large) {
+      flex-wrap: nowrap;
+    }
+    @include respond(medium) {
+      flex-wrap: nowrap;
+    }
+  }
+}

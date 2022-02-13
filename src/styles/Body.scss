@@ -1,5 +1,13 @@
+@import '../assets/mixins';
+
 .body {
   display: flex;
+  flex-direction: column;
+  gap: 16px;
+
+  @include respond(small) {
+    flex-direction: row;
+  }
 
   margin-top: 24px;
 }

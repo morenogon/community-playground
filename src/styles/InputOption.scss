@@ -1,0 +1,27 @@
+@import '../assets/variables';
+
+.inputOption {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+
+  color: #bcc6ca;
+  font-weight: 600;
+  border: 2px solid $quaternary-green;
+  padding: 8px 24px;
+  border-radius: 30px;
+
+  > img {
+    width: 24px;
+  }
+
+  > p {
+    margin-left: 8px;
+  }
+
+  &:hover {
+    cursor: pointer;
+    background-color: #27353e;
+  }
+}
