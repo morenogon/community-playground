@@ -3,19 +3,31 @@ import '../styles/Feed.scss';
 import { Avatar } from '@nextui-org/react';
 import InputOption from './InputOption';
 import Post from './Post';
-import { db } from './utils/firebase.config';
+import { collection, getDocs } from 'firebase/firestore';
+import db from '../firebase/firebase.config';
 
 const Feed = () => {
   const [input, setInput] = useState('');
   const [posts, setPosts] = useState([]);
 
   // real time connection to de db
-  // every time the collection is updated - new snapshot - update our posts
   useEffect(() => {
-    fetchPosts();
+    const getPosts = async () => {
+      const querySnapshot = await getDocs(collection(db, 'posts'));
+      const updatedPosts = querySnapshot.docs.map((docSnapshot) => ({
+        id: docSnapshot.id,
+        data: docSnapshot.data(),
+      }));
+      setPosts(updatedPosts);
+    };
+
+    getPosts();
   }, []);
 
-  const fetchPosts = () => {};
+  useEffect(() => {
+    console.log('post updated 🚀');
+    console.log(posts);
+  }, [posts]);
 
   const sendPost = (e) => {
     e.preventDefault();
@@ -56,25 +68,19 @@ const Feed = () => {
         </div>
       </div>
       <div className="feed__postsContainer">
-        {posts.map(
-          ({ id, data: { name, nickname, message, photo, timestamp } }) => {
-            <Post
-              key={id}
-              avatar={photo}
-              name={name}
-              nickname={nickname}
-              timestamp={timestamp}
-              message={message}
-            />;
-          }
-        )}
-        {/* <Post
-          avatar="https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NHx8cG9ydHJhaXR8ZW58MHx8MHx8&auto=format&fit=crop&w=800&q=60"
-          name="Name Surname"
-          nickname="@nickname"
-          description="description"
-          message="This is the message"
-        /> */}
+        {posts &&
+          posts.map(
+            ({ id, data: { name, nickname, message, photo, timestamp } }) => {
+              <Post
+                key={id}
+                avatar={photo}
+                name={name}
+                nickname={nickname}
+                timestamp={timestamp}
+                message={message}
+              />;
+            }
+          )}
       </div>
     </div>
   );
