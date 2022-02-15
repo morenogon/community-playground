@@ -14,19 +14,22 @@ const Feed = () => {
   useEffect(() => {
     const getPosts = async () => {
       const querySnapshot = await getDocs(collection(db, 'posts'));
-      const updatedPosts = querySnapshot.docs.map((docSnapshot) => ({
-        id: docSnapshot.id,
-        data: docSnapshot.data(),
-      }));
-      setPosts(updatedPosts);
+      setPosts(
+        querySnapshot.docs.map((doc) => ({
+          id: doc.id,
+          data: doc.data(),
+        }))
+      );
     };
 
     getPosts();
   }, []);
 
   useEffect(() => {
-    console.log('post updated 🚀');
-    console.log(posts);
+    if (posts.length > 0) {
+      console.log('posts updated 🚀');
+      console.log(posts);
+    }
   }, [posts]);
 
   const sendPost = (e) => {
@@ -68,6 +71,7 @@ const Feed = () => {
         </div>
       </div>
       <div className="feed__postsContainer">
+        <h1>POSTS</h1>
         {posts &&
           posts.map(
             ({ id, data: { name, nickname, message, photo, timestamp } }) => {
