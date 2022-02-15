@@ -1,9 +1,26 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import '../styles/Feed.scss';
 import { Avatar } from '@nextui-org/react';
 import InputOption from './InputOption';
+import Post from './Post';
+import { db } from './utils/firebase.config';
 
 const Feed = () => {
+  const [input, setInput] = useState('');
+  const [posts, setPosts] = useState([]);
+
+  // real time connection to de db
+  // every time the collection is updated - new snapshot - update our posts
+  useEffect(() => {
+    fetchPosts();
+  }, []);
+
+  const fetchPosts = () => {};
+
+  const sendPost = (e) => {
+    e.preventDefault();
+  };
+
   return (
     <div className="feed">
       <div className="feed__inputContainer">
@@ -13,8 +30,14 @@ const Feed = () => {
               src="https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NHx8cG9ydHJhaXR8ZW58MHx8MHx8&auto=format&fit=crop&w=800&q=60"
               size="lg"
             />
-            <input type="text" placeholder="What's happening?" />
-            <button type="submit">Send</button>
+            <input
+              onChange={(e) => setInput(e.target.value)}
+              type="text"
+              placeholder="What's happening?"
+            />
+            <button onClick={sendPost} type="submit">
+              Send
+            </button>
           </form>
         </div>
         <div className="feed__inputOptions">
@@ -32,7 +55,27 @@ const Feed = () => {
           />
         </div>
       </div>
-      <div className="feed__postContainer"></div>
+      <div className="feed__postsContainer">
+        {posts.map(
+          ({ id, data: { name, nickname, message, photo, timestamp } }) => {
+            <Post
+              key={id}
+              avatar={photo}
+              name={name}
+              nickname={nickname}
+              timestamp={timestamp}
+              message={message}
+            />;
+          }
+        )}
+        {/* <Post
+          avatar="https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NHx8cG9ydHJhaXR8ZW58MHx8MHx8&auto=format&fit=crop&w=800&q=60"
+          name="Name Surname"
+          nickname="@nickname"
+          description="description"
+          message="This is the message"
+        /> */}
+      </div>
     </div>
   );
 };
