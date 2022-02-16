@@ -27,7 +27,13 @@ const Feed = () => {
 
   const sendPost = (e) => {
     e.preventDefault();
+
+    setInput('');
   };
+
+  useEffect(() => {
+    console.log(input);
+  }, [input]);
 
   return (
     <div className="feed">
@@ -39,6 +45,7 @@ const Feed = () => {
               size="lg"
             />
             <input
+              value={input}
               onChange={(e) => setInput(e.target.value)}
               type="text"
               placeholder="What's happening?"
