@@ -17,7 +17,7 @@ const Feed = () => {
   const [input, setInput] = useState('');
   const [posts, setPosts] = useState([]);
 
-  // real time connection to de db
+  // real time connection to db
   useEffect(() => {
     onSnapshot(collection(db, 'posts'), (snapshot) => {
       setPosts(snapshot.docs.map((doc) => ({ id: doc.id, data: doc.data() })));
