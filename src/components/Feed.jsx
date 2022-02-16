@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import * as uuid from 'uuid';
 import { Avatar } from '@nextui-org/react';
-import { collection, doc, setDoc, serverTimestamp, onSnapshot } from 'firebase/firestore';
+import { collection, doc, setDoc, serverTimestamp, onSnapshot, orderBy, query } from 'firebase/firestore';
 
 // styles
 import '../styles/Feed.scss';
@@ -19,7 +19,9 @@ const Feed = () => {
 
   // real time connection to db
   useEffect(() => {
-    onSnapshot(collection(db, 'posts'), (snapshot) => {
+    const queryPosts = query(collection(db, 'posts'), orderBy('timestamp', 'desc'));
+
+    onSnapshot(queryPosts, (snapshot) => {
       setPosts(snapshot.docs.map((doc) => ({ id: doc.id, data: doc.data() })));
     });
   }, []);
