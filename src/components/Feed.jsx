@@ -25,13 +25,6 @@ const Feed = () => {
     getPosts();
   }, []);
 
-  useEffect(() => {
-    if (posts.length > 0) {
-      console.log('posts updated 🚀');
-      console.log(posts);
-    }
-  }, [posts]);
-
   const sendPost = (e) => {
     e.preventDefault();
   };
@@ -71,20 +64,17 @@ const Feed = () => {
         </div>
       </div>
       <div className="feed__postsContainer">
-        <h1>POSTS</h1>
         {posts &&
-          posts.map(
-            ({ id, data: { name, nickname, message, photo, timestamp } }) => {
-              <Post
-                key={id}
-                avatar={photo}
-                name={name}
-                nickname={nickname}
-                timestamp={timestamp}
-                message={message}
-              />;
-            }
-          )}
+          posts.map(({ id, data: { avatar, name, nickname, message } }) => (
+            <Post
+              key={id}
+              avatar={avatar}
+              name={name}
+              nickname={nickname}
+              message={message}
+            />
+          ))}
+        ;
       </div>
     </div>
   );
