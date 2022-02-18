@@ -6,15 +6,15 @@
 
 # 4. Building Header options ✅
 
-# 5. Building Feed Section
+# 5. Building Feed Section ✅
 
-# 6. Building Input option
+# 6. Building Input option ✅
 
-# 7. Building Post Section
+# 7. Building Post Section ✅
 
-# 8. Integrating with Firebase
+# 8. Integrating with Firebase ✅
 
-# 9. Integrating Redux
+# 9. Integrating Redux ✅
 
 # 10. Building Login Page
 
