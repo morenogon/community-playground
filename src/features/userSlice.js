@@ -7,10 +7,10 @@ export const userSlice = createSlice({
   },
   reducers: {
     login: (state, action) => {
-      state.value = action.payload;
+      state.user = action.payload;
     },
     logout: (state, action) => {
-      state.value = null;
+      state.user = null;
     },
   },
 });
@@ -18,6 +18,6 @@ export const userSlice = createSlice({
 export const { login, logout } = userSlice.actions;
 
 // use to get user within the app
-export const selectUser = (state) => state.counter.value;
+export const selectUser = (state) => state.user.value;
 
 export default userSlice.reducer;
