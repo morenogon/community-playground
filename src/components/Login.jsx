@@ -48,7 +48,7 @@ const Login = () => {
               })
             );
 
-            toast.success('🦄 You are now part of Playground Community!');
+            toast.success('🦄 Welcome to Playground Community!');
           })
           .catch((error) => {
             toast.warn(error.code);
@@ -180,7 +180,7 @@ const Login = () => {
           </div>
         </div>
       </div>
-      <ToastContainer position="bottom-top" autoClose={5000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover />
+      <ToastContainer position="top-center" autoClose={5000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover />
     </div>
   );
 };
