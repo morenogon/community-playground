@@ -5,8 +5,7 @@ import '../styles/Login.scss';
 import { getAuth, createUserWithEmailAndPassword, signInWithPopup, GoogleAuthProvider, updateProfile } from 'firebase/auth';
 import { useDispatch } from 'react-redux';
 import { login } from '../features/userSlice';
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { toast } from 'react-toastify';
 
 const Login = () => {
   const [fullName, setFullName] = useState('');
@@ -30,9 +29,6 @@ const Login = () => {
 
         console.log(userAuth);
 
-        // userAuth.user.photoURL = profilePic;
-        // userAuth.user.displayName = fullName;
-
         updateProfile(auth.currentUser, {
           displayName: fullName,
           photoURL: profilePic,
@@ -48,7 +44,7 @@ const Login = () => {
               })
             );
 
-            toast.success('🦄 Welcome to Playground Community!');
+            toast.success('🦄 You have signed up!');
           })
           .catch((error) => {
             toast.warn(error.code);
@@ -180,7 +176,6 @@ const Login = () => {
           </div>
         </div>
       </div>
-      <ToastContainer position="top-center" autoClose={5000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover />
     </div>
   );
 };
