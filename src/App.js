@@ -37,11 +37,6 @@ const App = () => {
     });
   }, []);
 
-  useEffect(() => {
-    console.log(user);
-    debugger;
-  }, [user]);
-
   return (
     <div className="app">
       {!user ? (
