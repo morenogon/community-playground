@@ -48,6 +48,8 @@ const Login = () => {
                 uid: user.uid,
                 displayName: fullName,
                 photoUrl: profilePic,
+                userName: userName,
+                quote: quote,
               })
             );
 
