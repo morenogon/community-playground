@@ -1,10 +1,10 @@
 import React from 'react';
 import '../styles/InputOption.scss';
 
-const InputOption = ({ icon, title }) => {
+const InputOption = ({ Icon, title, color }) => {
   return (
     <div className="inputOption">
-      <img src={icon} alt="" className="inputoption__icon" />
+      {Icon && <Icon className={color} />}
       {title && <p>{title}</p>}
     </div>
   );

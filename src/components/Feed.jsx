@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import * as uuid from 'uuid';
 import { Avatar } from '@nextui-org/react';
 import { collection, doc, setDoc, serverTimestamp, onSnapshot, orderBy, query } from 'firebase/firestore';
-
+import SlowMotionVideoIcon from '@mui/icons-material/SlowMotionVideo';
 // styles
 import '../styles/Feed.scss';
 
@@ -12,8 +12,14 @@ import Post from './Post';
 
 // data
 import db from '../firebase/firebase.config';
+import { selectUser } from '../features/userSlice';
+import { useSelector } from 'react-redux';
+import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
+import EventIcon from '@mui/icons-material/Event';
 
 const Feed = () => {
+  const user = useSelector(selectUser);
+
   const [input, setInput] = useState('');
   const [posts, setPosts] = useState([]);
 
@@ -32,9 +38,9 @@ const Feed = () => {
     // Add a new document in collection "posts"
     // When you use set() to create a document, you must specify an ID for the document to create.
     setDoc(doc(db, 'posts', uuid.v4()), {
-      name: 'Alba Moreno',
-      avatar: '',
-      nickname: '@amorenogo',
+      name: user.displayName,
+      avatar: user.photoUrl,
+      nickname: `@${user.userName}`,
       message: input,
       timestamp: serverTimestamp(),
     });
@@ -47,10 +53,7 @@ const Feed = () => {
       <div className="feed__inputContainer">
         <div className="feed__input">
           <form>
-            <Avatar
-              src="https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NHx8cG9ydHJhaXR8ZW58MHx8MHx8&auto=format&fit=crop&w=800&q=60"
-              size="lg"
-            />
+            <Avatar src={user?.photoUrl} size="lg" />
             <input value={input} onChange={(e) => setInput(e.target.value)} type="text" placeholder="What's happening?" />
             <button onClick={sendPost} type="submit">
               Send
@@ -58,9 +61,9 @@ const Feed = () => {
           </form>
         </div>
         <div className="feed__inputOptions">
-          <InputOption icon="https://cdn-icons-png.flaticon.com/128/747/747510.png" title="Photo" />
-          <InputOption icon="https://cdn-icons.flaticon.com/png/128/4340/premium/4340106.png?token=exp=1644797321~hmac=82a3990eaedcd059a625d1f663c1ef7d" title="Video" />
-          <InputOption icon="https://cdn-icons.flaticon.com/png/128/661/premium/661553.png?token=exp=1644797465~hmac=fb67730c68195f8b3b4b2919d86cf29b" title="Event" />
+          <InputOption Icon={AddPhotoAlternateIcon} title="Photo" color="inputoption__icon green" />
+          <InputOption Icon={SlowMotionVideoIcon} title="Video" color="inputoption__icon blue" />
+          <InputOption Icon={EventIcon} title="Event" color="inputoption__icon orange" />
         </div>
       </div>
       <div className="feed__postsContainer">

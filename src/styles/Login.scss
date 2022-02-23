@@ -40,6 +40,10 @@
     backdrop-filter: blur(25px);
     border-radius: 16px;
     background-color: rgba(88, 130, 193, 0.28);
+
+    &-register {
+      height: 685px;
+    }
   }
 
   &__form {
@@ -53,7 +57,6 @@
 
         > input {
           width: 335px;
-          // width: 100%;
 
           border-radius: 4px;
           border: none;

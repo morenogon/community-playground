@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { logout } from '../features/userSlice';
+import { useDispatch, useSelector } from 'react-redux';
+import { logout, selectUser } from '../features/userSlice';
 import { getAuth, signOut } from 'firebase/auth';
+import LogoutIcon from '@mui/icons-material/Logout';
 
 // styles
 import '../styles/Header.scss';
@@ -16,7 +17,6 @@ const Header = () => {
   const dispatch = useDispatch();
 
   const logoutOfApp = () => {
-    debugger;
     dispatch(logout());
 
     signOut(auth)
@@ -36,12 +36,7 @@ const Header = () => {
         <img src="https://cdn-icons-png.flaticon.com/512/174/174857.png" alt="linkedin logo" />
       </div>
       <div className="header__right">
-        <Button
-          type="primary"
-          title="Sign out"
-          avatar="https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NHx8cG9ydHJhaXR8ZW58MHx8MHx8&auto=format&fit=crop&w=800&q=60"
-          onClick={logoutOfApp}
-        />
+        <Button type="primary" title="Sign out" LeftIcon={LogoutIcon} onClick={logoutOfApp} />
       </div>
     </div>
   );

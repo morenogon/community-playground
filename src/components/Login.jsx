@@ -1,15 +1,19 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import '../styles/Login.scss';
-import { getAuth, createUserWithEmailAndPassword, signInWithPopup, GoogleAuthProvider, updateProfile } from 'firebase/auth';
-import { useDispatch } from 'react-redux';
-import { login } from '../features/userSlice';
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider, updateProfile } from 'firebase/auth';
+import { useDispatch, useSelector } from 'react-redux';
+import { login, selectUser } from '../features/userSlice';
 import { toast } from 'react-toastify';
+import db from '../firebase/firebase.config';
+import { doc, setDoc, query, collection, onSnapshot } from 'firebase/firestore';
 
 const Login = () => {
   const [fullName, setFullName] = useState('');
+  const [userName, setUserName] = useState('');
   const [profilePic, setProfilePic] = useState('');
+  const [quote, setQuote] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isRegistered, setIsRegistered] = useState(true);
@@ -17,17 +21,20 @@ const Login = () => {
 
   const dispatch = useDispatch();
   const auth = getAuth();
+  const user = useSelector(selectUser);
 
   // Register new user with email and password in Firebase
   const register = () => {
-    console.log('register');
-    debugger;
-
     createUserWithEmailAndPassword(auth, email, password)
       .then((userAuth) => {
         const user = userAuth.user;
 
-        console.log(userAuth);
+        // Add a new document in collection "users"
+        setDoc(doc(db, 'users', user.uid), {
+          email: user.email,
+          username: userName,
+          quote: quote,
+        });
 
         updateProfile(auth.currentUser, {
           displayName: fullName,
@@ -60,31 +67,58 @@ const Login = () => {
   const loginToApp = (e) => {
     e.preventDefault();
 
-    console.log('login');
+    signInWithEmailAndPassword(auth, email, password)
+      .then((userAuth) => {
+        // Signed in
+        getUserData(userAuth.user);
+      })
+      .catch((error) => {
+        toast.warn(error.code);
+      });
+  };
+
+  const getUserData = (userLogged) => {
+    const queryUsers = query(collection(db, 'users'));
+
+    onSnapshot(queryUsers, (snapshot) => {
+      snapshot.docs.map((user) => {
+        if (user.id === userLogged.uid) {
+          dispatch(
+            login({
+              email: userLogged.email,
+              uid: userLogged.uid,
+              displayName: userLogged.displayName,
+              photoUrl: userLogged.photoURL,
+              userName: user.data().username,
+              quote: user.data().quote,
+            })
+          );
+        }
+      });
+    });
   };
 
   const googleAuth = () => {
-    //   const auth = getAuth();
-    //   const provider = new GoogleAuthProvider();
-    //   signInWithPopup(auth, provider)
-    //     .then((result) => {
-    //       // This gives you a Google Access Token. You can use it to access the Google API.
-    //       const credential = GoogleAuthProvider.credentialFromResult(result);
-    //       const token = credential.accessToken;
-    //       // The signed-in user info.
-    //       const user = result.user;
-    //       // ...
-    //     })
-    //     .catch((error) => {
-    //       // Handle Errors here.
-    //       const errorCode = error.code;
-    //       const errorMessage = error.message;
-    //       // The email of the user's account used.
-    //       const email = error.email;
-    //       // The AuthCredential type that was used.
-    //       const credential = GoogleAuthProvider.credentialFromError(error);
-    //       // ...
-    //     });
+    const auth = getAuth();
+    const provider = new GoogleAuthProvider();
+    signInWithPopup(auth, provider)
+      .then((result) => {
+        // The signed-in user info.
+        const user = result.user;
+        debugger;
+        dispatch(
+          login({
+            email: user.email,
+            uid: user.uid,
+            displayName: user.displayName,
+            photoUrl: user.photoURL,
+          })
+        );
+      })
+      .catch((error) => {
+        // Handle Errors here.
+        toast.warn(error.code);
+      });
   };
 
   // Password toggle handler
@@ -94,6 +128,9 @@ const Login = () => {
 
   const resetForm = () => {
     setFullName('');
+    setUserName('');
+    setQuote('');
+    setUserName('');
     setProfilePic('');
     setEmail('');
     setPassword('');
@@ -101,10 +138,9 @@ const Login = () => {
 
   return (
     <div className="login">
-      <div className="login__container">
+      <div className={!isRegistered ? 'login__container login__container-register' : 'login__container'}>
         <div>
           <h1 className="login__title">Playground Community</h1>
-          {/* <h2>{isRegistered ? 'Sign in' : 'Sign up'}</h2> */}
           <div className="login__form">
             <form>
               {!isRegistered && (
@@ -115,8 +151,20 @@ const Login = () => {
               )}
               {!isRegistered && (
                 <label>
+                  User name
+                  <input type="text" value={userName} onChange={(e) => setUserName(e.target.value)} />
+                </label>
+              )}
+              {!isRegistered && (
+                <label>
                   Profile picture
                   <input type="text" value={profilePic} onChange={(e) => setProfilePic(e.target.value)} />
+                </label>
+              )}
+              {!isRegistered && (
+                <label>
+                  Quote
+                  <input type="text" value={quote} onChange={(e) => setQuote(e.target.value)} />
                 </label>
               )}
               <label>

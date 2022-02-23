@@ -2,13 +2,17 @@
   padding: 24px 32px;
   padding-bottom: 0px;
 
+  position: sticky;
+  top: 0px;
+
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: flex-end;
   align-items: center;
 
   &__left {
     img {
+      display: none;
       width: 36px;
     }
   }

@@ -16,7 +16,7 @@ const Post = ({ avatar, name, nickname, timestamp, message }) => {
             <h5>{name}</h5>
             <h6>{nickname}</h6>
           </div>
-          <p className="post__timestamp">{timestamp}</p>
+          {/* <p className="post__timestamp">{timestamp}</p> */}
         </div>
       </div>
       <div className="post__body">
